@@ -22,8 +22,10 @@ export default function HomePage() {
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(null);
 
-  useEffect(() => {
-    api
+  const loadServices = () => {
+    setLoading(true);
+    setError("");
+    return api
       .getServices()
       .then(({ data }) => {
         setServices(data);
@@ -31,6 +33,10 @@ export default function HomePage() {
       })
       .catch((err) => setError(getErrorMessage(err)))
       .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    loadServices();
   }, []);
 
   useEffect(() => {
@@ -70,7 +76,25 @@ export default function HomePage() {
   if (loading) {
     return (
       <PublicLayout>
-        <LoadingSpinner />
+        <LoadingSpinner label="Loading services… First visit may take up to 60s while the server wakes up." />
+      </PublicLayout>
+    );
+  }
+
+  if (error && services.length === 0) {
+    return (
+      <PublicLayout>
+        <div className="mx-auto max-w-lg rounded-2xl border border-red-200 bg-red-50 p-8 text-center">
+          <h2 className="text-lg font-semibold text-red-900">Could not load services</h2>
+          <p className="mt-2 text-sm text-red-700">{error}</p>
+          <button
+            type="button"
+            onClick={loadServices}
+            className="mt-6 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
+          >
+            Try again
+          </button>
+        </div>
       </PublicLayout>
     );
   }

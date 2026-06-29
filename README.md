@@ -45,12 +45,14 @@ book-flow/
 
 ## Live demo
 
-_TODO: add URLs after deploy_
+| | URL |
+| --- | --- |
+| **App** | https://book-flow-iota.vercel.app |
+| **Admin** | https://book-flow-iota.vercel.app/admin |
+| **Staff** | https://book-flow-iota.vercel.app/staff |
+| **API health** | https://bookflow-backend-vjqb.onrender.com/api/health |
 
-<!-- Example:
-- App: https://bookflow.vercel.app
-- API: https://bookflow-api.onrender.com/api/health
--->
+Use the demo accounts above. First API request after idle may take ~30–50s (Render free tier cold start).
 
 ## Local setup
 
@@ -88,11 +90,12 @@ npm run dev
 Quick steps:
 
 1. Push repo to GitHub
-2. Render → Blueprint from `render.yaml` → set `CORS_ORIGINS` to frontend URL
-3. Render Shell → `python init_production.py`
-4. Vercel → import repo, root `frontend`, set `VITE_API_URL=https://YOUR-API.onrender.com/api`
+2. Render → Blueprint from `render.yaml` (creates `bookflow-backend` + PostgreSQL)
+3. Vercel → import repo, root `frontend`, set `VITE_API_URL=https://YOUR-API.onrender.com/api` → redeploy
 
-Full guide: **[docs/DEPLOY.md](docs/DEPLOY.md)**
+Production notes: copy the exact Render service URL from the dashboard (may include a suffix, e.g. `-vjqb`). Demo data seeds automatically on Render startup; free tier has no Shell access.
+
+Full guide: **[docs/DEPLOY.md](docs/DEPLOY.md)** · Troubleshooting: **[docs/RENDER-FIX-SR.md](docs/RENDER-FIX-SR.md)**, **[docs/VERCEL-FIX-SR.md](docs/VERCEL-FIX-SR.md)**
 
 ## Implementation status
 
@@ -100,7 +103,7 @@ Full guide: **[docs/DEPLOY.md](docs/DEPLOY.md)**
 - [x] Flask backend (models, API, seed data)
 - [x] React frontend (public booking, admin, staff)
 - [x] Email preview UI (mock)
-- [ ] Deploy + live demo URL
+- [x] Deploy + live demo URL
 - [ ] Screenshots + Upwork case study
 
 ## License

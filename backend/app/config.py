@@ -18,6 +18,10 @@ class Config:
         os.getenv("DATABASE_URL", "sqlite:///bookflow.db")
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_ENGINE_OPTIONS = {
+        "connect_args": {"connect_timeout": 10},
+        "pool_pre_ping": True,
+    }
     JWT_ACCESS_TOKEN_EXPIRES = 86400  # 24 hours for demo
 
     cors_origins = os.getenv(

@@ -4,16 +4,28 @@ app = create_app()
 
 
 def _init_production_db():
-    """Seed PostgreSQL on Render free tier (no Shell / pre-deploy available)."""
+    """Seed PostgreSQL on Render — run in background so gunicorn starts quickly."""
+    import logging
     import os
+    import threading
 
     if not os.getenv("RENDER"):
         return
 
-    from seed import seed_database
+    logger = logging.getLogger(__name__)
 
-    with app.app_context():
-        seed_database(reset=False)
+    def run():
+        try:
+            from seed import seed_database
+
+            with app.app_context():
+                seeded = seed_database(reset=False)
+                if seeded:
+                    logger.info("Production database initialized with demo data.")
+        except Exception:
+            logger.exception("Production database init failed")
+
+    threading.Thread(target=run, daemon=True, name="bookflow-db-init").start()
 
 
 _init_production_db()

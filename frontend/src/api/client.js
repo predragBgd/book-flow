@@ -5,6 +5,7 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
 const client = axios.create({
   baseURL: API_URL,
   headers: { 'Content-Type': 'application/json' },
+  timeout: 90000,
 })
 
 client.interceptors.request.use((config) => {
@@ -60,5 +61,11 @@ export const api = {
 }
 
 export function getErrorMessage(error) {
+  if (error.code === 'ECONNABORTED') {
+    return 'Server is waking up (free hosting). Wait ~60 seconds and try again.'
+  }
+  if (error.message === 'Network Error') {
+    return 'Cannot reach the API. Check VITE_API_URL or start the backend locally.'
+  }
   return error.response?.data?.error || error.message || 'Something went wrong'
 }
