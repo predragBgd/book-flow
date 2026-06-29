@@ -24,35 +24,27 @@ Sačekaj status **Live** (5–10 min).
 
 ## Korak 3 — seed baze
 
-**Free plan nema Shell tab** — Render ga ne prikazuje na besplatnim web servisima.
+**Free plan nema Shell ni Pre-Deploy Command** — Render to ne podržava na besplatnim servisima.
 
-### Način A — Pre-Deploy Command (preporučeno)
+Baza se **automatski puni pri startu** servisa na Renderu (`run.py` detektuje `RENDER` env var).
 
-1. Otvori **bookflow-backend** (ne Blueprint, nego sam web servis)
-2. Levo: **Settings**
-3. Skroluj do **Build & Deploy**
-4. **Pre-Deploy Command** → upiši:
-   ```bash
-   python init_production.py
-   ```
-5. **Save Changes**
-6. Gore desno: **Manual Deploy** → **Deploy latest commit**
+Posle deploy-a proveri:
+```
+https://bookflow-backend-vjqb.onrender.com/api/services
+```
+Treba JSON sa uslugama.
 
-U logu deploy-a treba da vidiš: `Production database initialized with demo data.`
-
-### Način B — sa svog računara (ako A ne radi)
+### Ručno sa Mac-a (samo ako API i dalje vraća 500)
 
 1. **bookflow-db** → **Info** → kopiraj **External Database URL**
-2. U terminalu na Mac-u:
+2. U terminalu:
 
 ```bash
 cd ~/Sites/book-flow/backend
 source venv/bin/activate
-export DATABASE_URL="postgresql://..."   # paste External URL ovde
+export DATABASE_URL="postgresql://..."   # paste External URL
 python init_production.py
 ```
-
-(Treba ti aktiviran venv sa `pip install -r requirements.txt` — isto kao lokalni backend.)
 
 ## Korak 4 — provera API-ja
 

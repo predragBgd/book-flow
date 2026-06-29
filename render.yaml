@@ -1,5 +1,5 @@
 # Render Blueprint — BookFlow backend + PostgreSQL
-# Free plan has no Shell — init runs automatically via preDeployCommand
+# Free plan: no Shell / no preDeploy — DB seeds on startup (see run.py)
 
 services:
   - type: web
@@ -8,7 +8,6 @@ services:
     rootDir: backend
     plan: free
     buildCommand: pip install -r requirements.txt
-    preDeployCommand: python init_production.py
     startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 1 --timeout 120 run:app
     healthCheckPath: /api/health
     envVars:
