@@ -1,5 +1,5 @@
 # Render Blueprint — BookFlow backend + PostgreSQL
-# After sync: open Shell on bookflow-backend and run: python init_production.py
+# Free plan has no Shell — init runs automatically via preDeployCommand
 
 services:
   - type: web
@@ -8,6 +8,7 @@ services:
     rootDir: backend
     plan: free
     buildCommand: pip install -r requirements.txt
+    preDeployCommand: python init_production.py
     startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 1 --timeout 120 run:app
     healthCheckPath: /api/health
     envVars:

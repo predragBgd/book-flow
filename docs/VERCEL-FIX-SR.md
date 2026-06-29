@@ -13,9 +13,9 @@
 
 | Key | Value |
 |-----|--------|
-| `VITE_API_URL` | `https://bookflow-backend.onrender.com/api` |
+| `VITE_API_URL` | `https://bookflow-backend-vjqb.onrender.com/api` |
 
-Zameni URL ako Render servis ima drugo ime — kopiraj iz Render dashboarda + `/api`.
+Kopiraj tačan URL sa Render dashboarda (može imati sufiks poput `-vjqb`) + `/api`.
 
 ## Posle promene env var
 

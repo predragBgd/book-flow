@@ -24,28 +24,54 @@ Sačekaj status **Live** (5–10 min).
 
 ## Korak 3 — seed baze
 
-**bookflow-backend** → **Shell**:
+**Free plan nema Shell tab** — Render ga ne prikazuje na besplatnim web servisima.
+
+### Način A — Pre-Deploy Command (preporučeno)
+
+1. Otvori **bookflow-backend** (ne Blueprint, nego sam web servis)
+2. Levo: **Settings**
+3. Skroluj do **Build & Deploy**
+4. **Pre-Deploy Command** → upiši:
+   ```bash
+   python init_production.py
+   ```
+5. **Save Changes**
+6. Gore desno: **Manual Deploy** → **Deploy latest commit**
+
+U logu deploy-a treba da vidiš: `Production database initialized with demo data.`
+
+### Način B — sa svog računara (ako A ne radi)
+
+1. **bookflow-db** → **Info** → kopiraj **External Database URL**
+2. U terminalu na Mac-u:
 
 ```bash
+cd ~/Sites/book-flow/backend
+source venv/bin/activate
+export DATABASE_URL="postgresql://..."   # paste External URL ovde
 python init_production.py
 ```
 
+(Treba ti aktiviran venv sa `pip install -r requirements.txt` — isto kao lokalni backend.)
+
 ## Korak 4 — provera API-ja
 
-URL je **`https://bookflow-backend.onrender.com`** (ne stari bookflow-api!)
+URL **kopiraj sa Render dashboarda** (Settings → gore desno). Render često doda sufiks, npr.:
+
+`https://bookflow-backend-vjqb.onrender.com`
 
 ```
-https://bookflow-backend.onrender.com/api/health
+https://TVOJ-URL.onrender.com/api/health
 ```
 
 Treba: `{"status":"ok","app":"BookFlow"}`
 
 ## Korak 5 — Vercel
 
-**Settings** → **Environment Variables**:
+**Settings** → **Environment Variables** (koristi **tvoj** Render URL + `/api`):
 
 ```
-VITE_API_URL=https://bookflow-backend.onrender.com/api
+VITE_API_URL=https://bookflow-backend-vjqb.onrender.com/api
 ```
 
 **Deployments** → **Redeploy** (obavezno!)
