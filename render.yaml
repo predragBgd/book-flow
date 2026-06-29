@@ -5,6 +5,7 @@ services:
     rootDir: backend
     plan: free
     buildCommand: pip install -r requirements.txt
+    preDeployCommand: python init_production.py
     startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 2 --timeout 120 run:app
     healthCheckPath: /api/health
     envVars:
@@ -21,8 +22,6 @@ services:
           name: bookflow-db
           property: connectionString
 
-  - type: pserv
-    name: bookflow-db
-    runtime: postgresql
+databases:
+  - name: bookflow-db
     plan: free
-    ipAllowList: []
