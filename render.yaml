@@ -1,12 +1,14 @@
+# Render Blueprint — BookFlow backend + PostgreSQL
+# After sync: open Shell on bookflow-backend and run: python init_production.py
+
 services:
   - type: web
-    name: bookflow-api
+    name: bookflow-backend
     runtime: python
     rootDir: backend
     plan: free
     buildCommand: pip install -r requirements.txt
-    preDeployCommand: python init_production.py
-    startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 2 --timeout 120 run:app
+    startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 1 --timeout 120 run:app
     healthCheckPath: /api/health
     envVars:
       - key: PYTHON_VERSION
@@ -16,7 +18,7 @@ services:
       - key: JWT_SECRET_KEY
         generateValue: true
       - key: CORS_ORIGINS
-        sync: false
+        value: "*"
       - key: DATABASE_URL
         fromDatabase:
           name: bookflow-db

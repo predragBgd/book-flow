@@ -13,7 +13,10 @@ def create_app(config_class=Config):
     db.init_app(app)
     jwt.init_app(app)
     migrate.init_app(app, db)
-    CORS(app, origins=app.config["CORS_ORIGINS"], supports_credentials=True)
+    if app.config.get("CORS_ALLOW_ALL"):
+        CORS(app, resources={r"/api/*": {"origins": "*"}})
+    else:
+        CORS(app, origins=app.config["CORS_ORIGINS"])
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(public_bp)

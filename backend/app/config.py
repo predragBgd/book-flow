@@ -22,9 +22,14 @@ class Config:
 
     cors_origins = os.getenv(
         "CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173"
-    )
-    CORS_ORIGINS = [
-        origin.strip().rstrip("/")
-        for origin in cors_origins.split(",")
-        if origin.strip()
-    ]
+    ).strip()
+    if cors_origins == "*":
+        CORS_ALLOW_ALL = True
+        CORS_ORIGINS = ["*"]
+    else:
+        CORS_ALLOW_ALL = False
+        CORS_ORIGINS = [
+            origin.strip().rstrip("/")
+            for origin in cors_origins.split(",")
+            if origin.strip()
+        ]
