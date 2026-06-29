@@ -1,0 +1,67 @@
+---
+description: BookFlow — srpski rezime za developera (scope, workflow, sledeći koraci)
+alwaysApply: true
+---
+
+# BookFlow — notes (SR)
+
+Kratak rezime projekta na srpskom. Tehnički detalji: `docs/SPEC.md` i `project-spec.mdc` (EN).
+
+## Cilj
+
+Upwork portfolio demo — app za zakazivanje termina (salon, klinika, konsultant).
+
+## Stack
+
+React (Vite) + Flask + PostgreSQL/SQLite. UI tekst u app-u: **engleski**. Komentari u kodu: **engleski**.
+
+## Workflow
+
+```
+pending → confirmed → completed → reviewed
+         ↘ cancelled (admin)
+```
+
+1. **Klijent** — bira uslugu + termin, unosi ime/email (bez naloga)
+2. **Admin** — dodeli zaposlenog i potvrdi termin
+3. **Zaposleni** — označi da je posao završen
+4. **Klijent** — ocena (1–5) + komentar preko linka `/booking/:token`
+
+## Uloge
+
+| Uloga     | Pristup                                            |
+| --------- | -------------------------------------------------- |
+| Klijent   | Javna strana + token link                          |
+| Admin     | `/admin/*` — JWT, sve + podešavanja radnog vremena |
+| Zaposleni | `/staff/*` — JWT, samo svoji termini               |
+
+## Demo nalozi
+
+- Admin: `admin@demo.com` / `demo123`
+- Staff: `staff@demo.com` / `demo123`
+
+## Šta NE gradimo
+
+Stripe, OAuth, registracija, reset lozinke, SMS, Google Calendar, multi-tenant, pravi email (samo preview/mock).
+
+## Status implementacije
+
+- ✅ Backend (Flask API, seed, SQLite lokalno)
+- ✅ Frontend (React) — booking, admin, staff, email preview mock
+- ✅ Deploy config — `docs/DEPLOY.md`, `render.yaml`, Vercel/Netlify
+- ⏳ Live deploy + screenshot-i
+
+## Folderi
+
+- `backend/` — Flask API
+- `frontend/` — React SPA
+- `docs/SPEC.md` — puna EN specifikacija
+- Ne dirati `publish/`
+
+## Lokalno pokretanje (backend)
+
+```bash
+cd backend && source .venv/bin/activate
+python seed.py
+flask --app run run --debug
+```

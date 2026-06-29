@@ -1,0 +1,50 @@
+---
+description: BookFlow — stack, workflow, scope
+alwaysApply: true
+---
+
+# BookFlow
+
+React (Vite) + Flask + PostgreSQL booking app for Upwork portfolio.
+
+## Workflow
+
+`pending → confirmed → completed → reviewed` (+ `cancelled` by admin)
+
+1. Client picks service + slot (no login)
+2. Admin assigns staff + confirms
+3. Staff marks complete
+4. Client reviews via `/booking/:token`
+
+## Roles
+
+- **Client** — token link only, no account
+- **Admin** — JWT, full panel + settings (business hours, blocked dates)
+- **Staff** — JWT, own bookings only
+
+## Stack
+
+- Frontend: React 18, Vite, React Router, Tailwind, Axios
+- Backend: Flask, SQLAlchemy, JWT, CORS
+- Do not use Next.js
+
+## Do NOT build
+
+Stripe, OAuth, user registration, password reset, SMS, Google Calendar, multi-tenant, real email (preview/mock only)
+
+## Conventions
+
+- API prefix: `/api`
+- Comments in code: English
+- UI copy: English
+- Full spec: `docs/SPEC.md`
+- Serbian summary for developer: `project-notes-sr.mdc`
+- Do not modify `publish/` folder
+
+## Repo layout
+
+```
+frontend/   # React SPA
+backend/    # Flask API
+docs/       # SPEC.md
+```
